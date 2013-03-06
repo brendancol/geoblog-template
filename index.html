@@ -44,11 +44,42 @@
 	</head>
 	<body class="claro">
 
+		<div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design: 'sidebar', gutters: false">
+
+			<div id="banner" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'top', gutters: false">
+
+				<div id="headerText" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'center', gutters: false">
+					<h1 id="title"></h1>
+					<h2 id="subtitle"></h2>
+				</div><!--/headerText-->
+
+				<div id="brandingPane" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'right', gutters: false">
+				</div><!--/headerText-->
+
+			</div><!--/banner-->
+
+			<div id="contentPane" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center', gutters: false">
+				
+				<div id="sidePane" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'left', gutters: false, splitter: true">
+				</div><!--/sidePane-->
+
+				<div id="mapPane" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center', gutters: false">
+					<div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'center', gutters: false">
+					</div><!--/map-->
+				</div><!--/mapPane-->
+
+			</div><!--/contentPane-->
+
+		</div><!--/mainWindow-->
+
 		<script type="text/javascript" src="//serverapi.arcgisonline.com/jsapi/arcgis/?v=3.3"></script>
 		<script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
-		<script type="text/javascript" src="config.js"></script>
 
 		<script type="text/javascript">
+
+			require(["config/Config"], function(config){
+				config.init();
+			});
 
 			require(["storymaps/core/Core"], function(core){
 				core.init();
