@@ -53,8 +53,16 @@ define(["esri/map",
 			});
 			
 			mapDeferred.then(function(response){
-				map = response.map;
+				app.map = response.map;
+
+				startupBanner(response);
 			});
+		}
+
+		function startupBanner (response) {
+			console.log(response.itemInfo.item.title);
+			$("#title").html(configOptions.title || response.itemInfo.item.title);
+			$("#subtitle").html(configOptions.subtitle || response.itemInfo.item.snippet);
 		}
 
 		return {
