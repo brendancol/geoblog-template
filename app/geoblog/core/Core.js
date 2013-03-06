@@ -1,8 +1,9 @@
 define(["esri/map",
 		"esri/arcgis/utils",
 		"esri/layout",
-		"esri/widgets"],
-	function(Map,Utils,Layout,Widgets)
+		"esri/widgets",
+		"storymaps/geoblog/ui/BlogView"],
+	function(Map,Utils,Layout,Widgets,BlogView)
 	{
 		/**
 		 * Core
@@ -19,7 +20,8 @@ define(["esri/map",
 		{
 			app = {
 				//esri Map
-				map: null
+				map: null,
+				blog: new BlogView("#sidePane")
 			}
 
 			// Set the Portal
@@ -60,7 +62,6 @@ define(["esri/map",
 		}
 
 		function startupBanner (response) {
-			console.log(response.itemInfo.item.title);
 			$("#title").html(configOptions.title || response.itemInfo.item.title);
 			$("#subtitle").html(configOptions.subtitle || response.itemInfo.item.snippet);
 		}

@@ -47,8 +47,13 @@ h2{
 #sidePane{
 	height: 100%;
 	width: 30%;
+	padding: 25px;
 }
 
 #map{
 	overflow: hidden;
+}
+
+.claro .dijitSplitterVHover, .claro .dijitSplitterVActive{
+	background-color: #dadada;
 }
