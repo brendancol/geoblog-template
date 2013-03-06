@@ -1,0 +1,33 @@
+.claro .dijitContentPane{
+	padding: 0;
+}
+
+#mainWindow{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+#banner{
+	background-color: #444;
+	height: 115px;
+	width: 100%;
+}
+
+#brandingPane{
+	height: 100%;
+	width: 200px;
+}
+
+#headerText, #brandingPane{
+	padding: 25px 25px 0 25px;
+}
+
+#sidePane{
+	height: 100%;
+	width: 30%;
+}
+
+#map{
+	overflow: hidden;
+}
