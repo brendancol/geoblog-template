@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Geoblog Template</title>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+		<link type="image/ico" rel="shortcut icon" href="//resources.esri.com/favicon.ico">
+		<link type="image/ico" rel="icon"  href="//resources.esri.com/favicon.ico">
+
+		<link rel="stylesheet" type="text/css" href="lib/normalize.css">
+
+		<link rel="stylesheet" type="text/css" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css">
+		<link rel="stylesheet" type="text/css" href="//serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dijit/themes/claro/claro.css">
+
+		<link rel="stylesheet" type="text/css" href="app/core/core.css">
+
+		<script type="text/javascript">
+			var dojoConfig = {
+				parseOnLoad: true,
+				isDebug: false,
+				packages: [
+				{
+					name: 'config',
+					location: location.pathname.replace(/\/[^/]+$/, '/')
+				},
+				{
+					name: 'storymaps',
+					location: location.pathname.replace(/\/[^/]+$/, '/') + 'app'
+				}//,
+				// {
+				// 	name: 'esriTemplate',
+				// 	location: location.pathname.replace(/\/[^/]+$/, '/') + 'resources'
+				// }
+				]
+			};
+		</script>
+
+	</head>
+	<body class="claro">
+
+		<script type="text/javascript" src="//serverapi.arcgisonline.com/jsapi/arcgis/?v=3.3"></script>
+		<script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="config.js"></script>
+
+		<script type="text/javascript">
+
+			require(["storymaps/core/Core"], function(core){
+				core.init();
+			});
+
+		</script>
+
+
+	</body>
+</html>
