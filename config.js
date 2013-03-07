@@ -7,7 +7,9 @@ define([],
 				//The appid for the configured application
 				appid: "",
 				//The web map id
-				webmap: "66502e241a6e4f72a1d9c1a80fcbc2d7",
+				webmap: "996f62fa8f174423a11794913f7e189f",
+				//Enter the url to the feature service storing blog posts
+				featureService: "http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/geoblog_test/FeatureServer/0",
 				//Enter a title, if no title is specified, the webmap's title is used.
 				title: "",
 				//Enter a subtitle, if not specified the ArcGIS.com web map's summary is used

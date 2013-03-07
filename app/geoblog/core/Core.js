@@ -3,7 +3,12 @@ define(["esri/map",
 		"esri/layout",
 		"esri/widgets",
 		"storymaps/geoblog/ui/BlogView"],
-	function(Map,Utils,Layout,Widgets,BlogView)
+	function(
+		Map,
+		Utils,
+		Layout,
+		Widgets,
+		BlogView)
 	{
 		/**
 		 * Core
@@ -16,12 +21,14 @@ define(["esri/map",
 		// Initialization
 		//
 
+		var isBuilder = false;
+
 		function init()
 		{
 			app = {
 				//esri Map
 				map: null,
-				blog: new BlogView("#sidePane")
+				blog: null
 			}
 
 			// Set the Portal
@@ -44,6 +51,14 @@ define(["esri/map",
 			esri.config.defaults.io.proxyUrl = configOptions.proxyurl;
 			esri.config.defaults.geometryService = new esri.tasks.GeometryService(configOptions.geometryserviceurl);
 
+			//Update configOptions from URL Parameters
+			var urlObject = esri.urlToObject(document.location.href);
+			urlObject.query = urlObject.query || {};
+
+			if (urlObject.query.edit === "") {
+				isBuilder = true;
+			}
+
 			loadMap();
 
 		}
@@ -54,16 +69,49 @@ define(["esri/map",
 				sliderStyle: "small"
 			});
 			
-			mapDeferred.then(function(response){
+			mapDeferred.then(function(response)
+			{
 				app.map = response.map;
 
-				startupBanner(response);
+				if (app.map.loaded)
+					initializeApp(response);
+				else {
+					dojo.connect(map, "onLoad", function() {
+						initializeApp(response);
+					});
+				}
 			});
 		}
 
-		function startupBanner (response) {
+		function initializeApp(response)
+		{
+			var featureService = getLayerByURL(app.map,configOptions.featureService);
+
+			buildBannerDisplay(response);
+
+			app.blog = new BlogView("#blog",app.map,featureService);
+			app.blog.init(isBuilder);
+
+			// $("#addPost").click(function(){
+			// 	app.addPost.init();
+			// });
+		}
+
+		function buildBannerDisplay(response) 
+		{
 			$("#title").html(configOptions.title || response.itemInfo.item.title);
 			$("#subtitle").html(configOptions.subtitle || response.itemInfo.item.snippet);
+		}
+
+		function getLayerByURL(map,url)
+		{
+			var layer;
+			dojo.forEach(map.graphicsLayerIds,function(lyrId){
+				if(map.getLayer(lyrId).url.toLowerCase() === url.toLowerCase()){
+					layer = map.getLayer(lyrId);
+				}
+			});
+			return layer
 		}
 
 		return {
