@@ -66,7 +66,7 @@ define(["esri/map",
 		function loadMap()
 		{
 			var mapDeferred = esri.arcgis.utils.createMap(configOptions.webmap,"map",{
-				sliderStyle: "small"
+				slider: true,
 			});
 			
 			mapDeferred.then(function(response)
@@ -86,6 +86,18 @@ define(["esri/map",
 		function initializeApp(response)
 		{
 			var featureService = getLayerByURL(app.map,configOptions.featureService);
+
+			//Update zoom slider
+			$(".esriSimpleSlider").removeClass("esriSimpleSliderTL").addClass("esriSimpleSliderTR");
+
+			$(".esriSimpleSliderIncrementButton").addClass("zoomButtonIn");
+			$(".zoomButtonIn").each(function(i){
+				$(this).after("<div class='esriSimpleSliderIncrementButton initExtentButton'><img style='margin-top:5px' src='resources/images/home.png'></div>");
+				$(".initExtentButton").click(function(){
+					var mapState = $(".selected-blog").data("mapState");
+					app.map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}));
+				});
+			});
 
 			buildBannerDisplay(response);
 

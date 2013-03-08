@@ -56,33 +56,6 @@ define([],
 
 					createBlogPostHTML(blogArray,mapState);
 
-					// dojo.forEach(blogArray,function(item){
-
-					// 	var el;
-
-					// 	switch (item.type){
-					// 		case "title":
-					// 			el = '<h3 class="blogPostTitle">'+item.string+'</h3>';
-					// 			break;
-					// 		case "img":
-					// 			el = '<img class="blogPostImg" src="'+item.src+'" alt="">';
-					// 			if (item.string){
-					// 				el = el + '<p class="blogPostCaption">'+item.string+'</p>';
-					// 			}
-					// 			break;
-					// 		case "text":
-					// 			el = '<p class="blogPostText">'+item.string+'</p>';
-					// 			break;
-					// 	}
-
-					// 	$(".geoBlogPost").last().append(el).data("mapState",mapState).click(function(){
-					// 		if ($(this).hasClass("disabled-blog")){
-					// 			selectBlogPost($(this));
-					// 		}
-					// 	});
-
-					// });
-
 				});
 
 				initialSelection();
@@ -139,8 +112,7 @@ define([],
 				blogPost.stop(true,true).fadeTo("fast","1.0").removeClass("disabled-blog").addClass("selected-blog");
 
 				map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}));
-
-				//$(selector).scrollTop($(selector).scrollTop() + blogPost.position().top - 25);
+				
 				$(selector).animate({ scrollTop: $(selector).scrollTop() + blogPost.position().top - 25 });
 
 			}
