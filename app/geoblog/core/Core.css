@@ -46,8 +46,18 @@ h2{
 
 #sidePane{
 	height: 100%;
-	width: 30%;
-	padding: 25px;
+	width: 40%;
+}
+
+.postNav{
+	height: 40px;
+	width: 100%;
+	background: #666;
+	cursor: pointer;
+}
+
+#blog{
+	padding:25px;
 }
 
 #map{

@@ -89,12 +89,14 @@ define(["esri/map",
 
 			buildBannerDisplay(response);
 
-			app.blog = new BlogView("#blog",app.map,featureService);
-			app.blog.init(isBuilder);
+			app.blog = new BlogView("#blog",app.map,featureService,configOptions.blogStartPoint);
 
-			// $("#addPost").click(function(){
-			// 	app.addPost.init();
-			// });
+			dojo.connect(app.map,"onUpdateEnd",function(){
+				if(!app.map.firstLoad){
+					app.map.firstLoad = true;
+					app.blog.init(isBuilder);
+				}
+			});
 		}
 
 		function buildBannerDisplay(response) 
