@@ -184,15 +184,18 @@ define([],
 				el.before('<form class="tempPost"></form>');
 
 				form = $(selector).find(".tempPost");
-				form.append('<div class="tempBlogItem" itemType="title">Post Title:<br><textarea class="tempPostTitle tempBlogItemInput" itemType="title"></textarea></div>');
+				form.append('<div class="tempBlogItem" itemType="title"><textarea class="tempPostTitle tempBlogItemInput" itemType="title" placeholder="Type a title here..."></textarea></div>');
 
 				form.append('<div class="buttonGroup"><button type="button" id="buttonImg">Add Img</button><button type="button" id="buttonText">Add Text</button><button type="button" id="buttonSave">Save</button></div>');
 				
 				$("#buttonImg").click(function(){
-					$(".buttonGroup").before('<div class="tempBlogItem" itemType="img">Img URL:<br><textarea class="tempImgURL tempBlogItemInput" itemType="imgURL"></textarea><br>Img Caption/Copywrite:<br><textarea class="tempImgCaption tempBlogItemInput" itemType="imgCap"></textarea></div>');
+					$(".buttonGroup").before('<div class="tempBlogItem" itemType="img"><textarea class="tempImgURL tempBlogItemInput" itemType="imgURL" placeholder="Paste a photo URL here..."></textarea><img class="tempBlogPhotoPreview" style="display:none" src="" alt=""><br><textarea class="tempImgCaption tempBlogItemInput" itemType="imgCap" placeholder="Type photo caption here (optional)..."></textarea></div>');
+					$(".tempImgURL").last().change(function(){
+						$(this).next().show().attr("src",$(this).val());
+					});
 				});
 				$("#buttonText").click(function(){
-					$(".buttonGroup").before('<div class="tempBlogItem" itemType="text">Text:<textarea class="tempPostText tempBlogItemInput" itemType="imgURL"></textarea></div>');
+					$(".buttonGroup").before('<div class="tempBlogItem" itemType="text"><textarea class="tempPostText tempBlogItemInput" itemType="text" placeholder="Type a blog post here..."></textarea></div>');
 				});
 				$("#buttonSave").click(function(){
 					$(".tempBlogItem").each(function(){

@@ -11,7 +11,7 @@
 	border-top: 1px solid #ccc;
 }
 
-.blogPostTitle, .blogPostCaption{
+.blogPostTitle, .blogPostCaption, .tempPostTitle, .tempImgCaption{
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -19,7 +19,7 @@
 	color: #444;
 }
 
-.blogPostTitle{
+.blogPostTitle, .tempPostTitle{
 	font-size: 20px;
 	font-weight: bold;
 }
@@ -29,7 +29,7 @@
 	margin-top: 10px;
 }
 
-.blogPostCaption{
+.blogPostCaption, .tempImgCaption{
 	color: #999;
 }
 
@@ -59,6 +59,21 @@
 .tempBlogItemInput{
 	width: 100%;
 	resize: vertical;
+	color: #444;
+	border: #dadada 1px solid;
+	color:none;
+}
+
+.tempPostTitle{
+	height:26px;
+}
+
+.tempBlogPhotoPreview{
+	max-width: 100%;
+}
+
+.tempPostText{
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .legendSelectorPane{
