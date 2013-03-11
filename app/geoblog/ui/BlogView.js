@@ -14,14 +14,13 @@ define([],
 			var _tempBlogPost = null;
 			var _tempMapState = null;
 
-			featureService.hide();
-
 			this.init = function(addAvailable)
 			{
 				createBlog();
 
 				if (addAvailable){
 					addPostCreator();
+					addLayerList();
 				}
 			}
 
@@ -58,7 +57,9 @@ define([],
 
 				});
 
-				initialSelection();
+				if(featureService.graphics.length > 0){
+					initialSelection();
+				}
 			}
 
 			function createBlogPostHTML(blogArray, mapState)
@@ -111,10 +112,55 @@ define([],
 				$(".geoBlogPost").not(blogPost).stop(true,true).fadeTo("fast","0.5").removeClass("selected-blog").addClass("disabled-blog");
 				blogPost.stop(true,true).fadeTo("fast","1.0").removeClass("disabled-blog").addClass("selected-blog");
 
-				map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}));
+				if(mapState.infoWindow){
+					map.infoWindow.setContent(unescape(mapState.infoWindow.content));
+					map.infoWindow.setTitle("");
+					map.infoWindow.show(mapState.infoWindow.location);
+				}
+				else{
+					map.infoWindow.hide();
+				}
+
+				map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}),true);
+
+				toggleVisibleLayers(mapState.hiddenLayers);
 				
 				$(selector).animate({ scrollTop: $(selector).scrollTop() + blogPost.position().top - 25 });
 
+			}
+
+			function toggleVisibleLayers(hiddenLayers)
+			{
+				if (hiddenLayers){
+
+					dojo.forEach(map.layerIds,function(id){
+						if ($.inArray(id,hiddenLayers) >= 0){
+							map.getLayer(id).hide();
+						}
+						else{
+							map.getLayer(id).show();
+						}
+					});
+
+					dojo.forEach(map.graphicsLayerIds,function(id){
+						if ($.inArray(id,hiddenLayers) >= 0){
+							map.getLayer(id).hide();
+						}
+						else{
+							map.getLayer(id).show();
+						}
+					});
+
+				}
+				else{
+					dojo.forEach(map.layerIds,function(id){
+						map.getLayer(id).show();
+					});
+
+					dojo.forEach(map.graphicsLayerIds,function(id){
+						map.getLayer(id).show();
+					});
+				}
 			}
 
 			function addPostCreator()
@@ -193,11 +239,17 @@ define([],
 
 				if (map.infoWindow.isShowing){
 					_tempMapState.infoWindow = {
-						//features: map.infoWindow.features,
-						index: map.infoWindow.selectedIndex,
+						content: escape(map.infoWindow._contentPane.innerHTML),
 						location: map.infoWindow._location
 					};
 				}
+
+				_tempMapState.hiddenLayers = [];
+				$(".layerSelect").each(function(){
+					if(!$(this).prop("checked")){
+						_tempMapState.hiddenLayers.push($(this).attr("name"));
+					}
+				})
 
 				var pt = new esri.geometry.Point(0,0);
 
@@ -224,6 +276,54 @@ define([],
 				createBlogPostHTML(blogArray,mapState);
 
 				selectBlogPost($(".geoBlogPost").last());
+
+			}
+
+			function addLayerList()
+			{
+				dojo.place('<div class="legendSelectorPane"><div class="legendSelectorToggle">Choose visible layers ▼</div><div class="legendSelectorContent"></div></div>',map.root.parentNode,'last');
+
+				dojo.forEach(map.layerIds,function(id){
+					$(".legendSelectorContent").last().prepend('<input class="layerSelect" type="checkbox" name="'+id+'" value="'+id+'">'+id+'<br>');
+
+					if(map.getLayer(id).visible)
+						$(".layerSelect").first().prop("checked",true);
+
+					$(".layerSelect").first().click(function(){
+						if($(this).is(":checked")){
+							map.getLayer($(this).attr("name")).show();
+						}
+						else{
+							map.getLayer($(this).attr("name")).hide();
+						}
+					});
+				});
+
+				dojo.forEach(map.graphicsLayerIds,function(id){
+					$(".legendSelectorContent").last().prepend('<input class="layerSelect" type="checkbox" name="'+id+'" value="'+id+'">'+id+'<br>');
+
+					if(map.getLayer(id).visible)
+						$(".layerSelect").first().prop("checked",true);
+
+					$(".layerSelect").first().click(function(){
+						if($(this).is(":checked")){
+							map.getLayer($(this).attr("name")).show();
+						}
+						else{
+							map.getLayer($(this).attr("name")).hide();
+						}
+					});
+				});
+
+				$(".legendSelectorToggle").click(function(){
+					if ($(this).next().is(":visible")){
+						$(this).html("Choose visible layers ▲");
+					}
+					else{
+						$(this).html("Choose visible layers ▼");
+					}
+					$(this).next().stop(true,true).slideToggle();
+				});
 
 			}
 		}

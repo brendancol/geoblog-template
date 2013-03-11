@@ -36,7 +36,7 @@ define(["esri/map",
 			// - if app is accessed through localhost : use ArcGIS Online
 			// - use the server name and port of the 
 			if (!configOptions.sharingurl) {
-				if( location.host.match("localhost") )
+				if( location.host.match("localhost") || location.host.match("storymaps.esri.com") )
 					configOptions.sharingurl = "http://www.arcgis.com/sharing/rest/content/items";
 				else
 					configOptions.sharingurl = location.protocol + '//' + location.host + "/sharing/content/items";
@@ -95,7 +95,7 @@ define(["esri/map",
 				$(this).after("<div class='esriSimpleSliderIncrementButton initExtentButton'><img style='margin-top:5px' src='resources/images/home.png'></div>");
 				$(".initExtentButton").click(function(){
 					var mapState = $(".selected-blog").data("mapState");
-					app.map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}));
+					app.map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}),true);
 				});
 			});
 
