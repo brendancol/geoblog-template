@@ -49,11 +49,29 @@ h2{
 	width: 40%;
 }
 
-.postNav{
-	height: 40px;
-	width: 100%;
-	background: #666;
-	cursor: pointer;
+#navGutter{
+	height: 100%;
+	width: 40px;
+	background: #777;
+}
+
+#navButtons{
+	display: table-cell;
+	height: 80px;
+	width: 40px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+
+#navButtons .postNav{
+	color: #fff;
+	font-size: 32px;
+}
+
+#navButtons .postNav:hover{
+	color: #ccc;
+	cursor:pointer;	
 }
 
 #blog{

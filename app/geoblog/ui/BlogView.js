@@ -13,6 +13,10 @@ define([],
 			var _blog = null;
 			var _tempBlogPost = null;
 			var _tempMapState = null;
+			var _container = "#blogScrollWrapper";
+			var _blogScroll = new iScroll('blog');
+
+			//$(selecter).append('<div id="blogScrollWrapper"></div>');
 
 			this.init = function(addAvailable)
 			{
@@ -27,21 +31,32 @@ define([],
 			this.prev = function()
 			{
 				if($(".geoBlogPost").filter(".selected-blog").index() === 0){
-					selectBlogPost($(".geoBlogPost").last());
+					//selectBlogPost($(".geoBlogPost").last(),true);
 				}
 				else{
-					selectBlogPost($(".geoBlogPost").filter(".selected-blog").prev());
+					selectBlogPost($(".geoBlogPost").filter(".selected-blog").prev(),true);
 				}
+
+
+				_blogScroll.scrollToElement(blogPost.get(0),200);
 			}
 
 			this.next = function()
 			{
 				if($(".geoBlogPost").filter(".selected-blog").index() === $(".geoBlogPost").last().index()){
-					selectBlogPost($(".geoBlogPost").first());
+					//selectBlogPost($(".geoBlogPost").eq(0),true);
 				}
 				else{
-					selectBlogPost($(".geoBlogPost").filter(".selected-blog").next());
+					selectBlogPost($(".geoBlogPost").filter(".selected-blog").next(),true);
 				}
+			}
+
+			function refreshScroll()
+			{
+				_blogScroll.refresh();
+				$(".blogPostImg").load(function(){
+					_blogScroll.refresh();
+				});
 			}
 
 			function createBlog()
@@ -51,11 +66,13 @@ define([],
 					var blogArray = $.parseJSON(grp.attributes.blogPost);
 					var mapState = $.parseJSON(grp.attributes.mapState);
 
-					$(selector).append('<div class="geoBlogPost"></div>');
+					$(_container).append('<div class="geoBlogPost"></div>');
 
 					createBlogPostHTML(blogArray,mapState);
 
 				});
+
+				refreshScroll();
 
 				if(featureService.graphics.length > 0){
 					initialSelection();
@@ -83,11 +100,7 @@ define([],
 							break;
 					}
 
-					$(".geoBlogPost").last().append(el).data("mapState",mapState).click(function(){
-						if ($(this).hasClass("disabled-blog")){
-							selectBlogPost($(this));
-						}
-					});
+					$(".geoBlogPost").last().append(el).data("mapState",mapState);
 
 				});
 			}
@@ -105,8 +118,10 @@ define([],
 				}
 			}
 
-			function selectBlogPost(blogPost)
+			function selectBlogPost(blogPost,scrollToPost)
 			{
+				console.log("event");
+
 				var mapState = blogPost.data("mapState");
 
 				$(".geoBlogPost").not(blogPost).stop(true,true).fadeTo("fast","0.5").removeClass("selected-blog").addClass("disabled-blog");
@@ -121,12 +136,13 @@ define([],
 					map.infoWindow.hide();
 				}
 
+				if(scrollToPost){
+					_blogScroll.scrollToElement(blogPost.get(0),500);
+				}
+
 				map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}),true);
 
 				toggleVisibleLayers(mapState.hiddenLayers);
-				
-				$(selector).animate({ scrollTop: $(selector).scrollTop() + blogPost.position().top - 25 });
-
 			}
 
 			function toggleVisibleLayers(hiddenLayers)
@@ -166,9 +182,9 @@ define([],
 			function addPostCreator()
 			{
 				var addButton = null;
-				$(selector).append('<div class="addPost">+</div>');
+				$(_container).append('<div class="addPost">+</div>');
 
-				addButton = $(selector).find(".addPost");
+				addButton = $(_container).find(".addPost");
 
 				addButton.click(function(){
 					createTempPost($(this));
@@ -183,7 +199,7 @@ define([],
 				var form = null;
 				el.before('<form class="tempPost"></form>');
 
-				form = $(selector).find(".tempPost");
+				form = $(_container).find(".tempPost");
 				form.append('<div class="tempBlogItem" itemType="title"><textarea class="tempPostTitle tempBlogItemInput" itemType="title" placeholder="Type a title here..."></textarea></div>');
 
 				form.append('<div class="buttonGroup"><button type="button" id="buttonImg">Add Img</button><button type="button" id="buttonText">Add Text</button><button type="button" id="buttonSave">Save</button></div>');
@@ -229,7 +245,7 @@ define([],
 					saveBlogPost();
 
 					form.remove();
-					addButton = $(selector).find(".addPost");
+					addButton = $(_container).find(".addPost");
 					addButton.show();
 
 				});
@@ -274,11 +290,13 @@ define([],
 				var blogArray = $.parseJSON(grp.attributes.blogPost);
 				var mapState = $.parseJSON(grp.attributes.mapState);
 
-				$(selector).find(".addPost").before('<div class="geoBlogPost"></div>');
+				$(_container).find(".addPost").before('<div class="geoBlogPost"></div>');
 
 				createBlogPostHTML(blogArray,mapState);
 
 				selectBlogPost($(".geoBlogPost").last());
+
+				refreshScroll();
 
 			}
 

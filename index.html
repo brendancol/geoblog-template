@@ -62,9 +62,17 @@
 			<div id="contentPane" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center', gutters: false">
 				
 				<div id="sidePane" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'left', gutters: false, splitter: true">
-					<div id="prevPost" class="postNav" onclick="app.blog.prev()" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'top', gutters: false"></div>
-					<div id="blog" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'center', gutters: false"></div>
-					<div id="nextPost" class="postNav" onclick="app.blog.next()" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'bottom', gutters: false"></div>
+					<div id="navGutter" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'left', gutters: false">
+						<div id="navButtons" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'top', gutters: false">
+							<p id="prevPost" class="postNav" onclick="app.blog.prev()">▲</p>
+							<p id="nextPost" class="postNav" onclick="app.blog.next()">▼</p>
+						</div><!--/navButtons-->
+						<div id="navIndex" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'top', gutters: false">
+						</div><!--/navIndex-->
+					</div><!--/navGutter-->
+					<div id="blog" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'center', gutters: false">
+						<div id="blogScrollWrapper" onresize="app.blog.scrollRefresh()"></div>
+					</div>
 				</div><!--/sidePane-->
 
 				<div id="mapPane" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center', gutters: false">
@@ -78,6 +86,7 @@
 
 		<script type="text/javascript" src="http://servicesbeta.esri.com/jsapi/arcgis/?v=3.4"></script>
 		<script type="text/javascript" src="lib/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="lib/iscroll.js"></script>
 
 		<script type="text/javascript">
 
