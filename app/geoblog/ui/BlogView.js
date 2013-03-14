@@ -19,6 +19,7 @@ define([],
 				compareBottom: null,
 				selectorBottom: null
 			}
+			window._nextExtent = null;
 
 			$(selector).append('<div id="blogScrollWrapper"></div>');
 			var _blogScroll = new iScroll(selector.substr(1),{
@@ -52,7 +53,7 @@ define([],
 							else if(selectedBottom < 0){
 								if ($(this).position().top < 0 && $(this).position().top + $(this).outerHeight() >= 0){
 									newSelection = true;
-									if($(this).outerHeight()/2 + $(this).position().top > 0){
+									if($(this).outerHeight()/3 + $(this).position().top > 0){
 										selectBlogPost($(this),true);
 									}
 									else{
@@ -63,7 +64,7 @@ define([],
 							else if(selectedTop > _scrollEvents.selectorBottom){
 								if ($(this).position().top < _scrollEvents.selectorBottom && $(this).position().top + $(this).outerHeight() > _scrollEvents.selectorBottom){
 									newSelection = true;
-									if($(this).outerHeight()/2 + $(this).position().top > 0){
+									if($(this).outerHeight()/3 + $(this).position().top > 0){
 										selectBlogPost($(this),true);
 									}
 									else{
@@ -81,28 +82,12 @@ define([],
 							}
 						}
 					});
-					
-					// if(!newSelection){
-					// 	console.log("retry");
-					// 	$(".disabled-blog").each(function(){
-					// 		var top = $(this).position().top;
-					// 		var bottom = $(this).position().top + $(this).height();
-					// 		if(top > 0){
-					// 			newSelection = true;
-					// 			selectBlogPost($(this));
-					// 		}
-					// 		else if (bottom < _scrollEvents.selectorBottom && bottom > _scrollEvents.selectorBottom/2){
-					// 			newSelection = true;
-					// 			selectBlogPost($(this));
-					// 		}
-					// 	});
-
-					// }
 				}
 			});
 
 			this.init = function(addAvailable)
 			{
+
 				createBlog();
 
 				if (addAvailable){
@@ -220,7 +205,18 @@ define([],
 
 				toggleVisibleLayers(mapState.hiddenLayers);
 
-				//map.setExtent(new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}}),true);
+				if(mapState.extent){
+					var newExtent = new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}});
+					// if (_nextExtent){
+						setTimeout(function(){
+							map.setExtent(newExtent,true);
+						},1000)
+						
+					// }
+					// else{
+					// 	_nextExtent = newExtent;
+					// }
+				}
 			}
 
 			function toggleVisibleLayers(hiddenLayers)
