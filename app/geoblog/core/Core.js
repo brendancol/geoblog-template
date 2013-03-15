@@ -66,15 +66,16 @@ define(["esri/map",
 		function loadMap()
 		{
 			var mapDeferred = esri.arcgis.utils.createMap(configOptions.webmap,"map",{
-				slider: true,
+				slider: true
 			});
 			
 			mapDeferred.then(function(response)
 			{
 				app.map = response.map;
 
-				if (app.map.loaded)
+				if (app.map.loaded){
 					initializeApp(response);
+				}
 				else {
 					dojo.connect(map, "onLoad", function() {
 						initializeApp(response);

@@ -19,7 +19,6 @@ define([],
 				compareBottom: null,
 				selectorBottom: null
 			}
-			window._nextExtent = null;
 
 			$(selector).append('<div id="blogScrollWrapper"></div>');
 			var _blogScroll = new iScroll(selector.substr(1),{
