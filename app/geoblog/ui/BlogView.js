@@ -38,7 +38,7 @@ define([],
 							var bottom = $(this).position().top + $(this).height();
 							var selectedTop = $(".selected-blog").position().top;
 							var selectedBottom = selectedTop + $(".selected-blog").outerHeight();
-							if(_blogScroll.y <= _blogScroll.maxScrollY){
+							if(_blogScroll.y <= _blogScroll.maxScrollY + 25){
 								if($(".geoBlogPost").last().hasClass("disabled-blog")){
 									newSelection = true;
 									selectBlogPost($(".geoBlogPost").last());
