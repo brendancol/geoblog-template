@@ -207,15 +207,7 @@ define([],
 
 				if(mapState.extent){
 					var newExtent = new esri.geometry.Extent({"xmin":mapState.extent.xmin, "ymin": mapState.extent.ymin, "xmax": mapState.extent.xmax, "ymax": mapState.extent.ymax, "spatialReference": {"wkid": mapState.extent.spatialReference.wkid}});
-					// if (_nextExtent){
-						setTimeout(function(){
-							map.setExtent(newExtent,true);
-						},1000)
-						
-					// }
-					// else{
-					// 	_nextExtent = newExtent;
-					// }
+					map.setExtent(newExtent,true);
 				}
 			}
 
