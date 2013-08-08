@@ -1,24 +1,15 @@
-# Require any additional compass plugins here.
+# Middleman Config
 
-# Set this to the root of your project when deployed:
-http_path = "/"
-css_dir = "app/css"
-sass_dir = "app/css/sass"
-images_dir = "resources/images"
-javascripts_dir = "app/javascript"
+require "arcgis-framework"
 
-# You can select your preferred output style here (can be overridden via the command line):
-output_style = :compressed
+set :css_dir, 'stylesheets'
+set :js_dir, 'javascripts'
+set :images_dir, 'images'
 
-# To enable relative paths to assets via compass helper functions. Uncomment:
-relative_assets = true
+configure :build do
 
-# To disable debugging comments that display the original location of your selectors. Uncomment:
-# line_comments = false
+activate :minify_css
+activate :minify_javascript
+activate :relative_assets
 
-
-# If you prefer the indented syntax, you might want to regenerate this
-# project again passing --syntax sass, or you can uncomment this:
-# preferred_syntax = :sass
-# and then run:
-# sass-convert -R --from scss --to sass app/css/sass scss && rm -rf sass && mv scss sass
+end
